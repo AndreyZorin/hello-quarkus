@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "HelloProto";
+
+package tech.inno;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service GreetingsService {
+  rpc AddGreeting(CreateGreetingDto) returns (Response) {}
+  rpc UpdateGreeting(UpdateGreetingDto) returns (Response) {}
+  rpc DeleteGreetingByName(google.protobuf.StringValue) returns (Response) {}
+  rpc DeleteGreetingById(google.protobuf.Int64Value) returns (Response) {}
+  rpc FindAll(google.protobuf.Empty) returns (Response) {}
+  rpc FindByName(google.protobuf.StringValue) returns (Response) {}
+}
+
+message CreateGreetingDto {
+  string name = 1;
+}
+
+message UpdateGreetingDto {
+  int64 id = 1;
+  string name = 2;
+}
+
+message Response {
+  oneof response {
+    GreetingDto greetingDto = 1;
+    GreetingListDto greeting_list_dto = 2;
+    google.protobuf.Int32Value row_count_int = 3;
+    google.protobuf.Int64Value row_count_long = 4;
+    google.protobuf.BoolValue result = 5;
+    ErrorResponse error_response = 6;
+  }
+}
+
+message GreetingDto {
+  int64 id = 1;
+  string greeting = 2;
+}
+
+message GreetingListDto {
+  repeated GreetingDto greeting = 1;
+}
+
+message ErrorResponse {
+  int32 code = 1;
+  string status = 2;
+}

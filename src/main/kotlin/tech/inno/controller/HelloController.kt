@@ -4,8 +4,8 @@ import com.google.protobuf.Empty
 import com.google.protobuf.Int64Value
 import com.google.protobuf.StringValue
 import io.grpc.Status
-import io.grpc.StatusRuntimeException
 import io.quarkus.grpc.GrpcService
+import io.quarkus.logging.Log
 import io.smallrye.mutiny.Uni
 import tech.inno.*
 import tech.inno.mapper.GreetingMapperJava
@@ -19,10 +19,12 @@ class HelloController(
 
     override fun addGreeting(request: CreateGreetingDto?): Uni<Response> {
         if (request == null || request.name.isEmpty()) {
+            Log.error(Status.INVALID_ARGUMENT.toString())
             return getUniErrorResponse(Status.INVALID_ARGUMENT)
         }
         return greetingService.addGreeting(request)
             .map { entity ->
+                Log.info("Saved greeting with id: ${entity.id}")
                 greetingMapper.mapGreetingEntityToResponse(entity)
             }
     }

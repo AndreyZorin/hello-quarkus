@@ -60,4 +60,3 @@ If you want to learn more about building native executables, please consult <htt
 - Kotlin ([guide](https://quarkus.io/guides/kotlin)): Write your services in Kotlin
 - Reactive PostgreSQL client ([guide](https://quarkus.io/guides/reactive-sql-clients)): Connect to the PostgreSQL
   database using the reactive pattern
-
